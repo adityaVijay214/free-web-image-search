@@ -6,7 +6,7 @@
 
 ## Installation
 
-Extract `Free-Web-Image-Search.zip` to:
+Download the release ZIP (or the three release assets) and install them to:
 
 ```text
 YOUR_VAULT/.obsidian/plugins/free-web-image-search/
@@ -18,7 +18,7 @@ Enable **Free Web Image Search** under **Settings → Community plugins**. The b
 
 V3 retains the V2 deterministic search pipeline, provider failure isolation, pagination, relevance ranking, deduplication, context search, preview, favorites, history, and remote-image health checks. It adds a larger normalized source ecosystem, source-aware provider selection, rights-aware filtering, a reusable IIIF URL layer, and specialist chemistry and structural-biology providers.
 
-Only the explicit query is sent to a provider. Note contents, paragraphs, vault files, analytics, and telemetry are not sent anywhere.
+Only text explicitly used as a search query is sent to the selected provider. Surrounding note content, vault files, analytics, and telemetry are not uploaded. Context-search commands intentionally send the selected text, heading, note title, or paragraph as the query.
 
 ## First-class public providers
 
@@ -79,7 +79,7 @@ In this build environment, the Library of Congress API may return HTTP 403 throu
 
 ## Privacy and security
 
-No note content is uploaded. Only explicit search queries are sent. There is no AI integration, analytics, telemetry, account requirement, or credential collection. Unsafe URL schemes such as `javascript:`, `data:`, `file:`, and `chrome:` are rejected. Provider metadata is rendered with safe text APIs.
+No surrounding note content is uploaded. Only text explicitly used as a search query is sent. There is no AI integration, analytics, telemetry, account requirement, or credential collection. Unsafe URL schemes such as `javascript:`, `data:`, `file:`, and `chrome:` are rejected. Provider metadata is rendered with safe text APIs.
 
 ## Development and verification
 
@@ -88,7 +88,7 @@ npm install
 npm run build
 ```
 
-V3 uses TypeScript as the source of truth and esbuild for the generated `main.js`. The final ZIP contains the compiled plugin, source, stylesheet, manifest, package metadata, TypeScript configuration, README, and data-shape reference file. No image files are included.
+V3 uses TypeScript as the source of truth and esbuild for the generated `main.js`. The final ZIP contains the compiled plugin, source, stylesheet, manifest, package metadata, TypeScript configuration, README, and data-shape reference file. No image files are included in the source repository or plugin package except the generated JavaScript release asset; selected web images are never copied into the vault.
 
 ## Changelog
 
@@ -100,3 +100,15 @@ V3 uses TypeScript as the source of truth and esbuild for the generated `main.js
 - Added source-specific metadata details in cards and preview.
 - Added specialist chemistry and structural-biology image search.
 - Preserved remote-only insertion, deterministic ranking, pagination, health checks, favorites, history, and provider failure isolation.
+
+
+## Release checklist
+
+For release 3.0.1:
+
+1. Run `npm install` and `npm run build`.
+2. Upload `main.js`, `manifest.json`, and `styles.css` from `release-assets/3.0.1/` to the GitHub release tagged `3.0.1`.
+3. Keep `main.js` out of the source repository; it is ignored by `.gitignore`.
+4. The repository root contains `README.md`, `LICENSE`, and `manifest.json` for Community Directory review.
+
+The plugin uses public web APIs and image hosts. Network use is disclosed because provider APIs and the selected remote image URL must be reachable for search, preview, and inserted images to work. Rights information is provider-supplied metadata; a search result is not automatically copyright-free.
